@@ -21,10 +21,10 @@ const Shop = () => {
                     const uniqueCategories = [...new Set(filteredItems.map((item) => item.category))];
                     setCategories(uniqueCategories);
                 }
-                else toast.error("Failed to fetch items.", { autoClose: 2000 });
+                else toast.error("An error occured while fetching items", { autoClose: 2000 });
             }
             catch {
-                toast.error("An error occurred while fetching items.", { autoClose: 2000 });
+                toast.error("An error occurred while fetching items", { autoClose: 2000 });
             }
         };
         fetchItems();
@@ -44,8 +44,7 @@ const Shop = () => {
         let cart = JSON.parse(localStorage.getItem("cartItems")) || [];
         cart.push({ buyer: currentUser, name: item.name, seller: item.seller, price: item.price });
         localStorage.setItem("cartItems", JSON.stringify(cart));
-        console.log(cart);
-        toast.success("Item added to cart!", { autoClose: 2000 });
+        toast.success("Item added to cart successfully", { autoClose: 2000 });
     };
 
     return (
@@ -54,27 +53,13 @@ const Shop = () => {
             <div className="container mt-4">
                 <h1 className="mb-4">Shop</h1>
                 <div className="row mb-4">
-                    <div className="col-md-8">
-                        <input
-                            type="text"
-                            className="form-control"
-                            placeholder="Search for items..."
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                        />
-                    </div>
+                    <div className="col-md-8"> <input type="text" className="form-control" placeholder="Search for items..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} /> </div>
                     <div className="col-md-4">
                         <h5>Filter by Category:</h5>
                         <div className="d-flex flex-wrap">
                             {categories.map((category) => (
                                 <div key={category} className="form-check me-3">
-                                    <input
-                                        type="checkbox"
-                                        className="form-check-input"
-                                        id={category}
-                                        checked={selectedCategories.includes(category)}
-                                        onChange={() => handleCategoryChange(category)}
-                                    />
+                                    <input type="checkbox" className="form-check-input" id={category} checked={selectedCategories.includes(category)} onChange={() => handleCategoryChange(category)} />
                                     <label className="form-check-label" htmlFor={category}> {category} </label>
                                 </div>
                             ))}
@@ -83,9 +68,7 @@ const Shop = () => {
                 </div>
 
                 <div className="row">
-                    {filteredItems.length === 0 ? (
-                        <div className="col-12"> <p>No items available to display.</p> </div>
-                    ) : (
+                    {filteredItems.length === 0 ? (<div className="col-12"> <p>No items available to display.</p> </div>) : (
                         filteredItems.map((item) => (
                             <div className="col-lg-4 col-md-6 mb-4" key={item.name}>
                                 <div className="card h-100">
@@ -105,13 +88,7 @@ const Shop = () => {
                     )}
                 </div>
             </div>
-            <div className="bg-dark text-white text-center p-3 pb-1 mt-auto">
-                <p>
-                    <NavLink to="/" style={{ color: "ivory", borderRadius: "5px" }}>
-                        Go back to Home
-                    </NavLink>
-                </p>
-            </div>
+            <div className="bg-dark text-white text-center p-3 pb-1 mt-auto"> <p> <NavLink to="/" style={{ color: "ivory", borderRadius: "5px" }}> Go back to Home </NavLink> </p> </div>
         </div>
     );
 };

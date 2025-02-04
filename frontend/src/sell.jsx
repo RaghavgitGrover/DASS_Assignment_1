@@ -12,19 +12,11 @@ const Sell = () => {
         category: "",
     });
     const currentUser = localStorage.getItem("currentUser");
-    const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.id]: e.target.value,
-        });
-    };
+    const handleChange = (e) => { setFormData({ ...formData, [e.target.id]: e.target.value, }) };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const itemData = {
-            ...formData,
-            seller: currentUser,
-        };
+        const itemData = { ...formData, seller: currentUser, };
         try {
             const response = await fetch("http://localhost:3000/api/items", {
                 method: "POST",
@@ -32,7 +24,7 @@ const Sell = () => {
                 body: JSON.stringify(itemData),
             });
             if (response.ok) {
-                toast.success("Item added successfully!", { autoClose: 2000 });
+                toast.success("Item added successfully", { autoClose: 2000 });
                 setFormData({
                     name: "",
                     price: "",
@@ -42,11 +34,11 @@ const Sell = () => {
             }
             else {
                 const errorData = await response.json();
-                toast.error(errorData.message || "Failed to add the item.", { autoClose: 2000 });
+                toast.error(errorData.message || "Failed to add the item", { autoClose: 2000 });
             }
         }
         catch {
-            toast.error("An error occurred. Please try again later.", { autoClose: 2000 });
+            toast.error("An error occurred, pls try again", { autoClose: 2000 });
         }
     };
 
@@ -60,83 +52,34 @@ const Sell = () => {
                         <div className="row justify-content-between mb-3 p-3">
                             <div className="col-lg-6">
                                 <label htmlFor="name">Item Name</label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    id="name"
-                                    value={formData.name}
-                                    onChange={handleChange}
-                                    placeholder="Enter item name"
-                                    required
-                                />
+                                <input type="text" className="form-control" id="name" value={formData.name} onChange={handleChange} placeholder="Enter item name" required />
                             </div>
                             <div className="col-lg-6">
                                 <label htmlFor="price">Price</label>
-                                <input
-                                    type="number"
-                                    className="form-control"
-                                    id="price"
-                                    value={formData.price}
-                                    onChange={handleChange}
-                                    placeholder="Enter item price"
-                                    min="0"
-                                    required
-                                />
+                                <input type="number" className="form-control" id="price" value={formData.price} onChange={handleChange} placeholder="Enter item price" min="0" required />
                             </div>
                         </div>
                         <div className="row justify-content-between mb-3 p-3">
                             <div className="col-lg-6">
                                 <label htmlFor="description">Description</label>
-                                <textarea
-                                    className="form-control"
-                                    id="description"
-                                    value={formData.description}
-                                    onChange={handleChange}
-                                    placeholder="Enter item description"
-                                    rows="4"
-                                    required
-                                />
+                                <textarea className="form-control" id="description" value={formData.description} onChange={handleChange} placeholder="Enter item description" rows="4" required />
                             </div>
                             <div className="col-lg-6">
                                 <label htmlFor="category">Category</label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    id="category"
-                                    value={formData.category}
-                                    onChange={handleChange}
-                                    placeholder="Enter item category"
-                                    required
-                                />
+                                <input type="text" className="form-control" id="category" value={formData.category} onChange={handleChange} placeholder="Enter item category" required />
                             </div>
                         </div>
                         <div className="row justify-content-between mb-3 p-3">
                             <div className="col-lg-6">
                                 <label htmlFor="seller">Seller</label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    id="seller"
-                                    value={currentUser || "N/A"}
-                                    readOnly
-                                />
+                                <input type="text" className="form-control" id="seller" value={currentUser || "N/A"} readOnly />
                             </div>
-                            <div className="col-lg-6 d-flex align-items-end">
-                                <button type="submit" className="btn btn-primary w-100">
-                                    Submit
-                                </button>
-                            </div>
+                            <div className="col-lg-6 d-flex align-items-end"> <button type="submit" className="btn btn-primary w-100"> Submit </button> </div>
                         </div>
                     </form>
                 </div>
             </div>
-            <div className="bg-dark text-white text-center p-3 pb-1 mt-auto">
-                <p>
-                    <NavLink to="/" style={{ color: "ivory", borderRadius: "5px" }}>
-                        Go back to Home
-                    </NavLink>
-                </p>
-            </div>
+            <div className="bg-dark text-white text-center p-3 pb-1 mt-auto"> <p> <NavLink to="/" style={{ color: "ivory", borderRadius: "5px" }}> Go back to Home </NavLink> </p> </div>
         </div>
     );
 };

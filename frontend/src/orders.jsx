@@ -6,7 +6,6 @@ import Navbar from "./navbar";
 const Orders = () => {
     const [orders, setOrders] = useState([]);
     const currentUser = localStorage.getItem("currentUser");
-
     useEffect(() => {
         const fetchOrders = async () => {
             try {
@@ -15,25 +14,22 @@ const Orders = () => {
                     const data = await response.json();
                     setOrders(data);
                 }
-                else toast.error("Failed to fetch orders.", { autoClose: 2000 });
+                else toast.error("Failed to fetch orders, pls try again", { autoClose: 2000 });
             }
             catch {
-                toast.error("An error occurred while fetching orders.", { autoClose: 2000 });
+                toast.error("An error occurred while fetching orders, pls try again", { autoClose: 2000 });
             }
         };
         fetchOrders();
     }, [currentUser]);
 
     const buyerOrders = orders.filter(order => order.buyer === currentUser);
-    const soldItems = orders.flatMap(order =>
-        order.items
-            .filter(item => item.seller === currentUser)
-            .map(item => ({
-                orderNumber: order.orderNumber,
-                orderStatus: order.status,
-                otp: order.otp,
-                ...item
-            }))
+    const soldItems = orders.flatMap(order => order.items.filter(item => item.seller === currentUser).map(item => ({
+        orderNumber: order.orderNumber,
+        orderStatus: order.status,
+        otp: order.otp,
+        ...item
+    }))
     );
 
     const getStatusColor = (status) => {
@@ -70,9 +66,7 @@ const Orders = () => {
                                             </div>
                                         ))}
                                     </div>
-                                    <div className="mt-3">
-                                        <strong>OTP:</strong> {order.otp}
-                                    </div>
+                                    <div className="mt-3"> <strong>OTP:</strong> {order.otp} </div>
                                 </div>
                             </div>
                         ))}
@@ -88,8 +82,7 @@ const Orders = () => {
                                     <div className="mb-3">
                                         <h5 className="card-title">Order Number: {item.orderNumber}</h5>
                                         <h5 className="card-title">Item Name: {item.name}</h5>
-                                        <span className={`badge ${getStatusColor(item.status)} p-2`}>{item.orderStatus}</span>
-                                        <br />
+                                        <span className={`badge ${getStatusColor(item.status)} p-2`}>{item.orderStatus}</span> <br />
                                         <strong>Item Price:</strong> ${item.price}<br />
                                         <strong>Buyer:</strong> {item.buyer}<br />
                                         <strong>Status:</strong> {item.status}<br />

@@ -11,20 +11,12 @@ const Error = () => {
                         <div className="col-md-12">
                             <div className="error-template" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                                 <h1>404 Error</h1>
-                                <div className="error-details">
-                                    The requested page was not found!
-                                </div>
+                                <div className="error-details"> The requested page was not found! </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div className="bg-dark text-white text-center p-3 pb-1 mt-auto">
-                    <p>
-                        <NavLink to="/" style={{ color: "ivory", borderRadius: "5px" }}>
-                            Go back to Home
-                        </NavLink>
-                    </p>
-                </div>
+                <div className="bg-dark text-white text-center p-3 pb-1 mt-auto"> <p> <NavLink to="/" style={{ color: "ivory", borderRadius: "5px" }}> Go back to Home </NavLink> </p> </div>
             </div>
         </>
     )

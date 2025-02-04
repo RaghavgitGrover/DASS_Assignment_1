@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
+import { NavLink } from "react-router-dom";
 import Navbar from "./navbar";
 
 const models = [
@@ -27,10 +27,28 @@ const Support = () => {
     const [selectedModel, setSelectedModel] = useState("llama-3.3-70b-versatile");
     const currentUser = localStorage.getItem("currentUser");
 
+    useEffect(() => {
+        const fetchSupportHistory = async () => {
+            try {
+                const response = await fetch(`http://localhost:3000/api/supportHistory?currentUser=${currentUser}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    setConversation(data.conversation.reverse());
+                }
+                // else toast.error("Failed to load support history", { autoClose: 2000 });
+            }
+            catch {
+                toast.error("An error occurred while fetching support history", { autoClose: 2000 });
+            }
+        };
+
+        fetchSupportHistory();
+    }, [currentUser]);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!question.trim()) {
-            toast.error("Please enter your question.", { autoClose: 2000 });
+            toast.error("Please enter your question before submitting", { autoClose: 2000 });
             return;
         }
         try {
@@ -43,13 +61,14 @@ const Support = () => {
                 const data = await response.json();
                 setConversation([...data.conversation].reverse());
                 setQuestion("");
-            } else {
+            }
+            else {
                 const errorData = await response.json();
-                toast.error(errorData.message || "Failed to get support response.", { autoClose: 2000 });
+                toast.error(errorData.message || "Failed to get response from support", { autoClose: 2000 });
             }
         }
         catch {
-            toast.error("An error occurred. Please try again later.", { autoClose: 2000 });
+            toast.error("An error occurred, try again later.", { autoClose: 2000 });
         }
     };
 
@@ -64,19 +83,10 @@ const Support = () => {
                             <label htmlFor="questionLabel" className="form-label mb-0">Your Question</label>
                             <div style={{ minWidth: "200px" }}>
                                 <label htmlFor="model" className="form-label mb-0">Model</label>
-                                <select id="model" className="form-select" value={selectedModel} onChange={(e) => setSelectedModel(e.target.value)}>
-                                    {models.map((model, idx) => (<option key={idx} value={model}> {model} </option>))}
-                                </select>
+                                <select id="model" className="form-select" value={selectedModel} onChange={(e) => setSelectedModel(e.target.value)}> {models.map((model, idx) => (<option key={idx} value={model}>{model}</option>))} </select>
                             </div>
                         </div>
-                        <textarea
-                            id="question"
-                            className="form-control mt-2"
-                            value={question}
-                            onChange={(e) => setQuestion(e.target.value)}
-                            rows="4"
-                            placeholder="Enter your support question here..."
-                        ></textarea>
+                        <textarea id="question" className="form-control mt-2" value={question} onChange={(e) => setQuestion(e.target.value)} rows="4" placeholder="Enter your support question here..."></textarea>
                     </div>
                     <button type="submit" className="btn btn-primary">Submit Query</button>
                 </form>
@@ -99,4 +109,3 @@ const Support = () => {
 };
 
 export default Support;
-

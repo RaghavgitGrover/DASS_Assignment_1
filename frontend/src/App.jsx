@@ -7,31 +7,14 @@ function App() {
 
   useEffect(() => {
     const currentUser = localStorage.getItem('currentUser');
-    if (currentUser) {
-      setIsLoggedIn(true);
-    }
+    if (currentUser) setIsLoggedIn(true);
   }, []);
 
   return (
     <>
-      <div
-        style={{
-          minHeight: '100vh',
-          display: 'flex',
-          flexDirection: 'column',
-        }}
-      >
+      <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', }}>
         <Navbar />
-        <div
-          className="container"
-          style={{
-            flex: 1,
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
+        <div className="container" style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', }}>
           <div className="row text-center">
             <div className="col-md-12">
               <h1>Welcome to Rolx</h1>

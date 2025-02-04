@@ -16,11 +16,11 @@ const Item = () => {
                 if (response.ok) {
                     const data = await response.json();
                     setItem(data);
-                } else {
-                    toast.error("Item not found.", { autoClose: 2000 });
                 }
-            } catch {
-                toast.error("Error fetching item details.", { autoClose: 2000 });
+                else toast.error("Item not found, pls try again", { autoClose: 2000 });
+            }
+            catch {
+                toast.error("Error fetching item details, pls try again", { autoClose: 2000 });
             }
         };
         fetchItem();
@@ -50,9 +50,7 @@ const Item = () => {
                     <button className="btn btn-secondary m-3" onClick={() => navigate("/shop")}>Go Back to Shop</button>
                 </div>
             </div>
-            <div className="bg-dark text-white text-center p-3 pb-1 mt-auto">
-                <p><NavLink to="/" style={{ color: "ivory", borderRadius: "5px" }}>Go back to Home</NavLink></p>
-            </div>
+            <div className="bg-dark text-white text-center p-3 pb-1 mt-auto"> <p><NavLink to="/" style={{ color: "ivory", borderRadius: "5px" }}>Go back to Home </NavLink> </p> </div>
         </div>
     );
 };

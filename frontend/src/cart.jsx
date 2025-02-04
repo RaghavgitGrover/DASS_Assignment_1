@@ -16,9 +16,9 @@ const Cart = () => {
         setTotalPrice(total);
     }, []);
 
-    const handleCheckout = async () => {
+    const handlePurchase = async () => {
         if (cartItems.length === 0) {
-            toast.error("Your cart is empty!", { autoClose: 2000 });
+            toast.error("Your cart is empty! Pls add some items before proceeding", { autoClose: 2000 });
             return;
         }
         const currentUser = localStorage.getItem("currentUser");
@@ -37,7 +37,6 @@ const Cart = () => {
             otp,
             status: 'pending',
         };
-
         try {
             const response = await fetch('http://localhost:3000/api/orders', {
                 method: 'POST',
@@ -49,7 +48,7 @@ const Cart = () => {
             localStorage.removeItem("cartItems");
             setCartItems([]);
             setTotalPrice(0);
-            toast.success("Order placed successfully! OTP generated for tracking.", { autoClose: 2000 });
+            toast.success("Order placed successfully! Visit the orders page to see the generated OTP", { autoClose: 2000 });
         }
         catch (error) {
             toast.error(error.message, { autoClose: 2000 });
@@ -69,34 +68,17 @@ const Cart = () => {
             <Navbar />
             <div className="container mt-4 flex-grow-1">
                 <h1 className="mb-4">Your Cart</h1>
-                {cartItems.length === 0 ? (
-                    <div className="row">
-                        <div className="col-12">
-                            <p>No items in the cart yet</p>
-                        </div>
-                    </div>
-                ) : (
+                {cartItems.length === 0 ? (<div className="row"> <div className="col-12"> <p>No items in the cart yet</p> </div> </div>) : (
                     <div className="row">
                         {cartItems.map((item, index) => (
                             <div className="col-lg-4 col-md-6 mb-4" key={index}>
                                 <div className="card h-100">
                                     <div className="card-body">
                                         <h5 className="card-title">{item.name}</h5>
-                                        <p className="card-text">
-                                            <strong>Seller:</strong> {item.seller}
-                                        </p>
-                                        <p className="card-text">
-                                            <strong>Price:</strong> ${item.price}
-                                        </p>
+                                        <p className="card-text"> <strong>Seller:</strong> {item.seller} </p>
+                                        <p className="card-text"> <strong>Price:</strong> ${item.price} </p>
                                     </div>
-                                    <div className="card-footer">
-                                        <button
-                                            className="btn btn-danger w-100"
-                                            onClick={() => handleRemoveFromCart(item)}
-                                        >
-                                            Remove from Cart
-                                        </button>
-                                    </div>
+                                    <div className="card-footer"> <button className="btn btn-danger w-100" onClick={() => handleRemoveFromCart(item)}> Remove from Cart </button> </div>
                                 </div>
                             </div>
                         ))}
@@ -104,18 +86,10 @@ const Cart = () => {
                 )}
                 <div className="mt-4">
                     <h4>Total Price: ${totalPrice && !isNaN(totalPrice) ? totalPrice.toFixed(2) : "0.00"}</h4>
-                    <button className="btn btn-primary w-100" onClick={handleCheckout}>
-                        Proceed to Checkout
-                    </button>
+                    <button className="btn btn-primary w-100" onClick={handlePurchase}> Order Now </button>
                 </div>
             </div>
-            <div className="bg-dark text-white text-center p-3 pb-1 mt-4 mb-0">
-                <p>
-                    <NavLink to="/" style={{ color: "ivory", borderRadius: "5px" }}>
-                        Go back to Home
-                    </NavLink>
-                </p>
-            </div>
+            <div className="bg-dark text-white text-center p-3 pb-1 mt-4 mb-0"> <p> <NavLink to="/" style={{ color: "ivory", borderRadius: "5px" }}> Go back to Home </NavLink> </p> </div>
         </div>
     );
 };
